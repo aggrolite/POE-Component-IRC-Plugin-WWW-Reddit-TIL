@@ -1,6 +1,6 @@
 package POE::Component::IRC::Plugin::WWW::Reddit::TIL;
 
-use 5.006;
+use 5.008_005;
 use strict;
 use warnings;
 
@@ -77,7 +77,7 @@ __END__
 
 =head1 NAME
 
-POE::Component::IRC::Plugin::WWW::Reddit::TIL - IRC plugin to fetch random TIL's from reddit.com
+POE::Component::IRC::Plugin::WWW::Reddit::TIL - IRC plugin that fetches random TIL headlines from reddit.com/r/TodayILearned
 
 =head1 VERSION
 
