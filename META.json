@@ -36,10 +36,9 @@
       },
       "runtime" : {
          "requires" : {
-            "LWP::Simple" : "0",
-            "Mojo::JSON" : "0",
+            "Mojo::UserAgent" : "0",
             "POE::Component::IRC::Plugin" : "0",
-            "perl" : "5.008005"
+            "perl" : "5.010"
          }
       },
       "test" : {
