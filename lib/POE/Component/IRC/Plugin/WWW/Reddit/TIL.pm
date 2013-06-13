@@ -6,7 +6,7 @@ use warnings;
 
 use WWW::Shorten::Simple;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use POE::Component::IRC::Plugin qw( :ALL );
 use Mojo::JSON;
