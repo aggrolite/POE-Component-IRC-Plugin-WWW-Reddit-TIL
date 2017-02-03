@@ -8,7 +8,6 @@ our $VERSION = '0.07';
 
 use POE::Component::IRC::Plugin qw( :ALL );
 use Mojo::UserAgent;
-use WWW::Shorten::Simple;
 
 sub new {
     my $package = shift;
@@ -48,21 +47,25 @@ sub S_public {
 
 sub _get_TIL {
     my $ua = Mojo::UserAgent->new;
-    my %posts;
-    foreach my $post (
-        @{$ua->get('http://www.reddit.com/r/todayilearned.json')->res->json->{data}{children}})
-    {
-        my $title = $post->{data}{title};
-        my $link  = $post->{data}{url};
-        $posts{$title} = $link if $title && $link;
-    }
-    return unless %posts;
+    my @posts;
 
-    my $title = (keys %posts)[rand keys %posts];
-    my $short =
-      WWW::Shorten::Simple->new('Bitly', 'aggrolite', 'R_418414782c81e2c4444348e367201706');
-    my $link = $short->shorten($posts{$title});
-    return "$title $link";
+    my $json = $ua->get('https://www.reddit.com/r/todayilearned.json')->res->json;
+
+    # Children are posts in reddit world.
+    foreach my $post (@{$json->{data}{children}}) {
+        my %info = (
+            url    => 'https://reddit.com/' . $post->{data}{id},
+            title => $post->{data}{title},
+        );
+        push @posts, \%info;
+    }
+    unless (@posts) {
+        warn q@Found no posts! Something's probably wrong.@;
+        return;
+    }
+
+    my $random = $posts[rand @posts];
+    return $random->{title} . ' ' . $random->{url};
 }
 
 1;
